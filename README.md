@@ -7,7 +7,7 @@
   * [프로젝트 내 설정](#프로젝트-내-설정)
   * [웹뷰 설정](#웹뷰-설정)
   * [프로가드 설정](#프로가드-설정)
-* [Web/iOS/Android SDK 설정](#Web/iOS/Android-SDK-설정)
+* [Web/iOS/Android SDK 설정](#web/ios/android-sdk-설정)
 * [이벤트 연동하기](#이벤트-연동하기)
 * [사용자 속성 연동하기](#사용자-속성-연동하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
@@ -19,9 +19,9 @@
     * [로그 출력](#로그-출력)
     * [비로그인 사용자 이벤트 수집](#비로그인-사용자-이벤트-수집)
 * [Push 설정](#Push-설정)
-    * [Library 설치](#Library-설치)
+    * [Library 설치](#library-설치)
     * [Push알림 권한 설정](#Push알림-권한-설정)
-    * [iOS/Android Push 연동](#iOS/Android-Push-연동)
+    * [iOS/Android Push 연동](#ios-android-push-설정)
     
 ## 기본 연동
 
@@ -321,7 +321,7 @@ PushNotification.configure({
     requestPermissions: true,
 });
 ```
-### iOS/Android Push 설정
+### iOS Android Push 설정
 >각 플랫폼에 맞는 설정을 진행합니다.
 
-* Push 가이드 : [iOS](https://github.com/tand-git/android-sdk/releases) / [Android](https://github.com/tand-git/android-sdk/releases)
+* Push 가이드 : [iOS](https://github.com/tand-git/sdk-for-react-native/tree/master/ios#push-%EC%97%B0%EB%8F%99) / [Android](https://github.com/tand-git/sdk-for-react-native/tree/master/android#push-%EC%97%B0%EB%8F%99)

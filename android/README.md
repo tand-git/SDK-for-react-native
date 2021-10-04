@@ -247,7 +247,7 @@ Log.v("Sphere", "Sphere ID: " + sphereId);
 
 > 푸시 메시지 기능을 사용하기 위해서는 Sphere SDK 연동가이드의 기본 연동 및 FCM(Firebase Cloud Messaging) 클라이언트 앱 설정이 필수적으로 완료되어야 메시지 수신이 가능합니다.
 
-* [Sphere SDK Android 연동가이드](https://github.com/tand-git/android-sdk) : [기본 연동](https://github.com/tand-git/android-sdk#기본-연동)
+* [Sphere SDK Android 연동가이드](https://github.com/tand-git/sdk-for-react-native/tree/master/android) : [기본 연동](https://github.com/tand-git/sdk-for-react-native/tree/master/android#기본-연동)
 * [Android 기반 FCM(Firebase Cloud Messaging) 클라이언트 앱 설정](https://firebase.google.com/docs/cloud-messaging/android/client)
 
 SDK 기본 연동 및 푸시 메시지 연동이 모두 완료된 샘플 프로젝트는 아래 샘플 소스 참조 사이트에서 확인이 가능합니다.  
