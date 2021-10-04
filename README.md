@@ -7,7 +7,8 @@
   * [프로젝트 내 설정](#프로젝트-내-설정)
   * [웹뷰 설정](#웹뷰-설정)
   * [프로가드 설정](#프로가드-설정)
-* [Web/iOS/Android SDK 설정](#web/ios/android-sdk-설정)
+* [iOS/Android SDK 설정](#ios-android-sdk-설정)
+* [Web SDK 설정](#web-sdk-설정)
 * [이벤트 연동하기](#이벤트-연동하기)
 * [사용자 속성 연동하기](#사용자-속성-연동하기)
   * [사용자 아이디 설정](#사용자-아이디-설정)
@@ -20,7 +21,7 @@
     * [비로그인 사용자 이벤트 수집](#비로그인-사용자-이벤트-수집)
 * [Push 설정](#Push-설정)
     * [Library 설치](#library-설치)
-    * [Push알림 권한 설정](#Push알림-권한-설정)
+    * [Push알림 권한 설정](#push알림-권한-설정)
     * [iOS/Android Push 연동](#ios-android-push-설정)
     
 ## 기본 연동
@@ -78,10 +79,10 @@ return (
 )
 ```
 
-### iOS/Android SDK 설정
+## iOS Android SDK 설정
 아래의 링크된 가이드를 참조바랍니다.
 
-SDK 가이드 : [iOS](https://github.com/tand-git/android-sdk/releases) / [Android](https://github.com/tand-git/android-sdk/releases)
+* SDK 가이드 : [iOS](https://github.com/tand-git/android-sdk/releases) / [Android](https://github.com/tand-git/android-sdk/releases)
 
 ## Web SDK 설정
 웹뷰를 사용하는 경우 Web SDK를 설치해야합니다. 
