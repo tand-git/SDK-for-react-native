@@ -31,7 +31,7 @@ Sphere Analytics 사용을 위해서는 기본적으로 앱키(App key)가 필�
 
 ### 샘플 소스 및 연동 검증 가이드
 
-* [SDK 샘플 소스](sample) : 최신 버전의 Sphere SDK가 연동된 샘플 소스를 확인할 수 있습니다.
+* [SDK 샘플 소스](https://github.com/tand-git/sdk-for-react-native/sample) : 최신 버전의 Sphere SDK가 연동된 샘플 소스를 확인할 수 있습니다.
 * [SDK 연동 검증 가이드](https://github.com/tand-git/sphere-sdk/blob/master/guide/SDK_Inspection.md) : 기본 연동이 완료되었다면 SDK 연동 검증 가이드에 따라 SDK 동작 상태를 확인할 수 있습니다.
 
 ### SDK 다운로드
@@ -135,7 +135,7 @@ NSLog(@"Sphere ID: %@", sphereId);
 SDK 기본 연동 및 푸시 메시지 연동이 모두 완료된 샘플 프로젝트는 아래 샘플 소스 참조 사이트에서 확인이 가능합니다.  
 샘플 프로젝트를 통해 단말에서 메시지 전송 테스트를 하기 위해서는 Firebase 콘솔에서 샘플앱 프로젝트를 생성 후 발급받은 `GoogleService-Info.plist` 파일로 교체해야 테스트가 가능합니다.
 
-* 샘플 소스: [https://github.com/tand-git/ios-sdk/tree/master/message/sample](https://github.com/tand-git/ios-sdk/tree/master/message/sample)
+* 샘플 소스: [링크](https://github.com/tand-git/sdk-for-react-native/sample)
 
 ### Notification Service Extension
 
@@ -328,42 +328,4 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 > 푸시 메시지 전송 시 데이터(키/값)를 함께 전달하기 위해서는 [키-값 이용 가이드](https://www.notion.so/Key-value-c65b4843b7cd4b6e80e91ad994af52b2)를 참고하여 Sphere 콘솔에서 푸시메시지 입력 시 키/값을 설정해야 합니다.
 
-데이터(키/값)와 함께 푸시메시지를 전송하면 메시지 클릭 시 실행되는 `AppDelegate`로 데이터가 전달됩니다.  
-만약 링크를 통해 앱 내 특정 페이지로 이동할 경우 링크에 해당하는 키/값이 `AppDelegate`로 전달되면 해당 링크를 확인하여 링크 페이지로 이동하는 코드를 구현해야 합니다.
-
-
-`<Objective-C> - AppDelegate.m`
-
-```objectivec
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    // 푸시메시지 커스텀 데이터 전달 처리
-    NSString *yourPushLinkKey = @"key_your_push_link";
-    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (userInfo[yourPushLinkKey]) {
-        NSString *link = userInfo[yourPushLinkKey];
-        // 링크 페이지로 이동
-    }
-
-    return YES;
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-didReceiveNotificationResponse:(UNNotificationResponse *)response
-         withCompletionHandler:(void(^)(void))completionHandler  {
-
-    // 푸시메시지 커스텀 데이터 전달 처리
-    NSString *yourPushLinkKey = @"key_your_push_link";
-    NSDictionary *userInfo = response.notification.request.content.userInfo;
-    if (userInfo[yourPushLinkKey]) {
-        NSString *link = userInfo[yourPushLinkKey];
-        // 링크 페이지로 이동
-    }
-    [RNCPushNotificationIOS didReceiveNotificationResponse:response];
-    completionHandler();
-}
-
-@end
-```
+* 리액트네이티브 문서 - 푸시메세지 데이터 전달 가이드 : [링크](https://github.com/tand-git/sdk-for-react-native#푸시메시지-데이터-전달)

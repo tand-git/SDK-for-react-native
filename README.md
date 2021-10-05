@@ -23,6 +23,7 @@
     * [Library 설치](#library-설치)
     * [Push알림 권한 설정](#push알림-권한-설정)
     * [iOS/Android Push 연동](#ios-android-push-설정)
+    * [푸시메시지 데이터 전달](#푸시메시지-데이터-전달)
     
 ## 기본 연동
 
@@ -307,7 +308,7 @@ yarn add react-native-push-notification
 ```
 
 ### Push알림 권한 설정
-> 프로젝트 내 `index.js`에 아래의 코드를 추가합니다.
+> 프로젝트 내 `index.js`에 아래의 권한요청 코드를 추가합니다. 
 
 ```js
 import PushNotification from "react-native-push-notification";
@@ -326,3 +327,45 @@ PushNotification.configure({
 >각 플랫폼에 맞는 설정을 진행합니다.
 
 * Push 가이드 : [iOS](https://github.com/tand-git/sdk-for-react-native/tree/master/ios#push-%EC%97%B0%EB%8F%99) / [Android](https://github.com/tand-git/sdk-for-react-native/tree/master/android#push-%EC%97%B0%EB%8F%99)
+
+### 푸시메시지 데이터 전달
+
+> 프로젝트 내 `index.js`의 앞서 작성된`PushNotification.configure`에 아래의 코드를 추가합니다. 
+
+> 데이터(키/값)와 함께 푸시메시지를 전송하면 메시지 클릭 시 데이터가 전달됩니다.
+
+> 만약 링크를 통해 앱 내 특정 페이지로 이동할 경우 링크에 해당하는 키/값이 해당 메소드로 전달되면 해당 링크를 확인하여 링크 페이지로 이동하는 코드를 구현해야 합니다.
+
+```js
+import PushNotification from "react-native-push-notification";
+
+PushNotification.configure({
+    onNotification: function (notification) {
+        let dataCheck = true;
+        //sphere 푸시 메세지 확인
+        if (Platform.OS === 'android' && notification.data.sphereMsg ) {
+            if (notification.data.sphereMsg === "true" ) {
+                dataCheck = false;
+                notification.data.sphereMsg = "false"
+                PushNotification.localNotification(notification)
+            }
+        }
+       if(dataCheck){
+            //sphere 푸시 메세지 확인
+            if(notification.data['sphere_analytics_id']){
+                // 푸시메세지 커스텀 데이터 전달 처리
+                let link = (notification.data['KEY_YOUR_PUSH_LINK']);
+                // 링크 페이지로 이동
+            }
+        }
+    },
+    },
+    // IOS ONLY
+    permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+    },
+    requestPermissions: true,
+});
+```
