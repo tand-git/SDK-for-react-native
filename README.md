@@ -5,6 +5,7 @@
   * [샘플 소스 및 연동 검증 가이드](#샘플-소스-및-연동-검증-가이드)
   * [SDK 다운로드](#sdk-다운로드-for-react-native)
   * [프로젝트 내 설정](#프로젝트-내-설정)
+  * [OS별 Bridge 설정하기](#os별-bridge-설정하기)
   * [웹뷰 설정](#웹뷰-설정)
   * [프로가드 설정](#프로가드-설정)
 * [iOS/Android SDK 설정](#ios-android-sdk-설정)
@@ -41,18 +42,73 @@ Sphere Analytics 사용을 위해서는 기본적으로 앱키(App key)가 필�
 
 ### SDK 다운로드 for react native
 
-SDK 라이브러리를 다운로드하기 위해서는 [SDK 다운로드 페이지](https://github.com/tand-git/react-native-sdk/releases)를 방문하면 현재까지 릴리즈된 SDK 버전들을 확인할 수 있으며 가장 최신 버전의 SDK 파일(sphereSDK.js)을 선택하여 다운로드 합니다.
+* SDK 다운로드 : [iOS SDK](https://github.com/tand-git/ios-sdk/releases) | [Android SDK](https://github.com/tand-git/android-sdk/releases) | [React native SDK](https://github.com/tand-git/react-native-sdk/releases)
+각 OS별 SDK를 방문하여 현재까지 릴리즈된 SDK 버전들을 확인할 수 있으며 가장 최신 버전의 SDK 파일을 선택하여 다운로드 합니다.
 
 ### 프로젝트 내 설정
 
-1. 해당 프로젝트의 libs 폴더에 SDK 파일(sphereSDK.js)을 복사합니다.
+1. iOS 설정가이드 : 링크 - 기본연동(SDK 초기화 부분까지)
+2. android 설정가이드 : 링크 - 기본연동(SDK 초기화 부분까지)
+3. SDK 파일(sphereSDK.js)을 해당 프로젝트의 libs 폴더에 복사합니다.
+
+### OS별 Bridge 설정하기
+ * iOS
+    1. SDK Bridge 파일들을(SphereBridge.h,SphereBridge.m)프로젝트로 복사합니다.
+        
+        `<Objective-C> - AppDelegate.m`
+        ```objectivec
+        @import SphereSDK;
+
+        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+
+            //SphereBridge 코드를 추가합니다.(view페이지에 삽입)
+            RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+            RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"testRn" initialProperties:nil];
+
+            // Sphere Analytics SDK 초기화
+            [SPRAnalytics configureWithAppKey:@"Your Sphere Analytics App Key"];
+
+            return YES;
+        }
+        @end
+
+        ```
+* Android
+    1. SDK Bridge 파일들을(SphereBridge.java,SphereBridgePackage.java)프로젝트로 복사합니다.
+    `<JAVA> - MainApplication.java`
+        ```java
+        import com.sphere.analytics.SphereAnalytics;
+
+        public class MainApplication extends Application implements ReactApplication {
+            private final ReactNativeHost mReactNativeHost =
+            new ReactNativeHost(this) {
+                
+                @Override
+                protected List<ReactPackage> getPackages() {
+                @SuppressWarnings("UnnecessaryLocalVariable")
+                List<ReactPackage> packages = new PackageList(this).getPackages();
+                    //SphereBridge 코드를 추가합니다.
+                    packages.add(new SphereBridgePackage());
+                return packages;
+                }
+            }
+
+            @Override
+            public void onCreate() {
+                super.onCreate();
+
+                // Sphere Analytics SDK 초기화
+                SphereAnalytics.configure(this, "Your Sphere SDK App Key");
+            }
+        }
+        ```
+
 
 ### 웹뷰 설정
+1. 메인화면 onload 시점에 webView로 Sphere정보를 전달합니다.(onLoad)
+2. webSDK에서 전달된 내용을 받아 Android/iOS SDK로 전달합니다.
 
-1. 메인화면 onload 시점에 webView로 Sphere정보를 전달해야합니다.(onLoad)
-2. webSDK에서 전달된 내용을 받아 Android/iOS SDK로 전달이 필요합니다.
-
-```script
+```js
 import {SphereAnalytics} from "../lib/sphereSDK";
 
 // 1번
@@ -79,11 +135,6 @@ return (
     />
 )
 ```
-
-## iOS Android SDK 설정
-아래의 링크된 가이드를 참조바랍니다.
-
-* SDK 가이드 : [iOS](https://github.com/tand-git/android-sdk/releases) / [Android](https://github.com/tand-git/android-sdk/releases)
 
 ## Web SDK 설정
 웹뷰를 사용하는 경우 Web SDK를 설치해야합니다. 
@@ -157,7 +208,7 @@ SphereAnalytics.logEvent("event_name_2", null);
 ```js
 if (isLogIn) { // 로그인: ON 상태
     // 사용자 아이디 설정 - 로그인: ON 상태
-    SphereAnalytics.setUserId("[USER ID]");
+    SphereAnalytics.setUserId("USER_ID");
 } else { // 로그아웃: OFF 상태
     // 사용자 아이디 초기화 - 로그아웃: OFF 상태
     SphereAnalytics.setUserId(null);
@@ -177,13 +228,13 @@ if (isLogIn) { // 로그인: ON 상태
 if (isLogIn) { // 로그인: ON 상태 및 사용자 정보 변경 시 설정
 
     // 사용자 아이디 설정
-    SphereAnalytics.setUserId("[USER ID]");
+    SphereAnalytics.setUserId("USER_ID");
     // 등급 설정
     SphereAnalytics.setGrade("vip");
-    // 성별 설정
-    SphereAnalytics.setGender("m"); // 남성일 경우: "m", 여성일 경우: "f"
+    // 성별 설정 
+    SphereAnalytics.setGender("m"); // 남성: "m", 여성: "f"
     // 출생년도 설정
-    SphereAnalytics.setBirthYear(1995); // 출생년도
+    SphereAnalytics.setBirthYear(1995);
     // 보유 포인트 설정
     SphereAnalytics.setRemainingPoint(1000);
 
