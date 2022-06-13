@@ -47,8 +47,8 @@ Sphere Analytics 사용을 위해서는 기본적으로 앱키(App key)가 필�
 
 ### 프로젝트 내 설정
 
-1. iOS 설정가이드 : 링크 - 기본연동(SDK 초기화 부분까지)
-2. android 설정가이드 : 링크 - 기본연동(SDK 초기화 부분까지)
+1. iOS 설정가이드 : [링크](https://github.com/tand-git/ios-sdk#%EA%B8%B0%EB%B3%B8-%EC%97%B0%EB%8F%99) - 기본연동(SDK 초기화 부분까지)
+2. android 설정가이드 : [링크](https://github.com/tand-git/android-sdk#%EA%B8%B0%EB%B3%B8-%EC%97%B0%EB%8F%99) - 기본연동(SDK 초기화 부분까지)
 3. SDK 파일(sphereSDK.js)을 해당 프로젝트의 libs 폴더에 복사합니다.
 
 ### OS별 Bridge 설정하기
@@ -160,6 +160,8 @@ SphereAnalytics.init("Your Sphere Analytics App Key");
 
 > 이벤트는 가장 기본이 되는 수집 정보이며 이벤트는 이벤트명과 파라미터들로 구성이 됩니다.
 
+> 이벤트 연동 검증 방법 : [링크](https://lightning-individual-9c1.notion.site/ed4a7dd092d6446e8be56e73648637a2)
+
 SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 이벤트를 연동할 수 있으며, 한 이벤트는 최대 25개의 파라미터를 설정할 수 있습니다.
 파라미터는 파라미터명과 파라미터값의 쌍으로 구성되며 JSON 타입을 통해 설정이 가능합니다.
 
@@ -176,12 +178,19 @@ SDK가 초기화 되었다면 `logEvent` 함수를 이용하여 이벤트를 연
     * 첫 글자는 영문 대소문자만 허용
 
 3. 파라미터값
-    * 지원 타입 : String(최대 100자), Number
+    * 지원 타입 : String(최대 100자), Number 
+    * 추가지원타입 : String[]배열 (webview 사용중인 경우
+     iOS SDK v1.2.10 이상부터 지원)
 
 ```js
 // 파라미터를 포함한 이벤트 기록
 // 파라미터 형식: JSON 타입 { name:value, ... }
-var params = { param_name_1: "param_value", param_name_2: 9.9, param_name_3: 1 };
+var params = { param_name_1: "param_value"
+            , param_name_2: 9.9
+            , param_name_3: 1 
+            , param_name_4: ['value1','value2']
+            };
+
 SphereAnalytics.logEvent("event_name_1", params);
 
 // 파라미터가 없는 이벤트 기록
@@ -259,6 +268,9 @@ if (isLogIn) { // 로그인: ON 상태 및 사용자 정보 변경 시 설정
 사용자 속성은 속성명과 속성값의 쌍으로 구성되며 사용자 속성 정보 초기화 시 `removeUserProperty` 함수를 이용하여 초기화가 가능합니다.
 또한 문자형 사용자 속성의 경우 속성값을 `null`로 설정 시 해당 속성은 초기화 됩니다.
 
+(단, 개인정보는 전달하면 안됩니다. ex: 생년월일, 전화번호, e-mail등)
+
+사용자 속성에 관한 규칙은 다음과 같습니다.
 1. 사용자 속성명
     * 최대 40자
     * 영문 대소문자, 숫자, 특수문자 중 ‘_’ 만 허용
@@ -267,9 +279,24 @@ if (isLogIn) { // 로그인: ON 상태 및 사용자 정보 변경 시 설정
 
 2. 사용자 속성값
     * 최대 100자
-    * 지원 타입 : String
+    * 지원 타입 : String , Number , String[]배열 (SDK 1.1.6 부터 지원)
+
 
 ```js
+// 커스텀 사용자 속성 설정
+SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value");
+SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345);
+// 커스텀 사용자 속성 초기화
+SphereAnalytics.removeUserProperty("user_property_name_1");
+SphereAnalytics.removeUserProperty("user_property_name_2");
+
+// 배열 속성 설정
+SphereAnalytics.setUserPropertyArray("user_property_arr",['prop1','prop2'])
+// 배열 속성 초기화
+SphereAnalytics.setUserPropertyArray("user_property_arr",null)
+
+```
+
 // 커스텀 사용자 속성 설정
 SphereAnalytics.setUserProperty("user_property_name_1", "user_property_value");
 SphereAnalytics.setUserPropertyLong("user_property_name_2", 12345);
