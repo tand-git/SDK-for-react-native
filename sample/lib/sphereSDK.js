@@ -1,6 +1,6 @@
 import {NativeModules, Platform} from 'react-native';
 
-// SphereSDK v1.0.0
+// SphereSDK v1.0.1
 export let SphereAnalytics = {
     _sphereNative : NativeModules.SphereBridge,
     logEvent:function(name, params) {
@@ -86,7 +86,7 @@ export let SphereAnalytics = {
         }
 
     },
-    setRemainingPoint:function(point) {
+    setRemainingPoint:function(point , name) {
         try {
             if (!this._isNumberValue(point)) {
                 this._consoleError("setRemainingPoint: Invalid parameter.");
@@ -94,6 +94,39 @@ export let SphereAnalytics = {
             }
             let message = {
                 command: "setRemainingPoint",
+                name: name || 'point',
+                point: point
+            };
+            this._postMessage(message);
+        } catch(error) {
+            this._consoleError(error);
+        }
+    },
+    setTotalEarnedPoint:function(point , name) {
+        try {
+            if (!this._isNumberValue(point)) {
+                this._consoleError("setTotalEarnedPoint: Invalid parameter.");
+                return;
+            }
+            let message = {
+                command: "setTotalEarnedPoint",
+                name: name || 'point',
+                point: point
+            };
+            this._postMessage(message);
+        } catch(error) {
+            this._consoleError(error);
+        }
+    },
+    setTotalUsedPoint:function(point , name) {
+        try {
+            if (!this._isNumberValue(point)) {
+                this._consoleError("setTotalUsedPoint: Invalid parameter.");
+                return;
+            }
+            let message = {
+                command: "setTotalUsedPoint",
+                name: name || 'point',
                 point: point
             };
             this._postMessage(message);
@@ -154,6 +187,20 @@ export let SphereAnalytics = {
                 command: "resetUserProperties"
             };
             this._postMessage(message);
+        } catch(error) {
+            this._consoleError(error);
+        }
+    },
+    setUserPropertyArray:function(name, value) {
+        try {
+            if(Array.isArray(value) || value == null){
+                let message = {
+                    command: 'setUserPropertyArray',
+                    name: name,
+                    value: value
+                };
+                this._postMessage(message);
+            }
         } catch(error) {
             this._consoleError(error);
         }
