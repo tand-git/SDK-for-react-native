@@ -104,9 +104,9 @@ Sphere Analytics 사용을 위해서는 기본적으로 앱키(App key)가 필�
         ```
 
 
-### 웹뷰 설정
+### WebView 핸들러 설정
 1. 메인화면 onload 시점에 webView로 Sphere정보를 전달합니다.(onLoad)
-2. webSDK에서 전달된 내용을 받아 Android/iOS SDK로 전달합니다.
+2. webSDK에서 전달된 내용을 받아 Android/iOS SDK로 전달합니다. 
 
 ```js
 import {SphereAnalytics} from "../lib/sphereSDK";
