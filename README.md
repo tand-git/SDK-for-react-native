@@ -6,7 +6,7 @@
   * [SDK 다운로드](#sdk-다운로드-for-react-native)
   * [프로젝트 내 설정](#프로젝트-내-설정)
   * [OS별 Bridge 설정하기](#os별-bridge-설정하기)
-  * [웹뷰 설정](#웹뷰-설정)
+  * [WebView 핸들러 설정](#webview-핸들러-설정)
   * [프로가드 설정](#프로가드-설정)
 * [iOS/Android SDK 설정](#ios-android-sdk-설정)
 * [Web SDK 설정](#web-sdk-설정)
